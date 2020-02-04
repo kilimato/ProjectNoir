@@ -63,15 +63,12 @@
     </Reference>
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="Assets\Scripts\ChangeWorldColors.cs" />
     <Compile Include="Assets\Scripts\FollowPlayer.cs" />
     <Compile Include="Assets\Scripts\PlayerController.cs" />
-    <Compile Include="Assets\Scripts\RevealBuilding.cs" />
     <Compile Include="Assets\Scripts\TriggerBuilding.cs" />
-    <None Include="Assets\Sprites\Cities\readme.txt" />
     <None Include="Assets\Sprites\PixelCharacters\Font.txt" />
-    <None Include="Assets\Sprites\Cities\License.txt" />
     <None Include="Assets\Sprites\PixelCharacters\license.txt" />
+    <None Include="Assets\RenderTexturesAndShaders\FogOfWar.shader" />
     <None Include="Assets\Sprites\Cyberpunk_street\cyberpunk-street-files\public-license.txt" />
     <Reference Include="Unity.Timeline.Editor">
       <HintPath>C:/KilimatoProject/ProjectNoir/MusiqueNoir/Library/ScriptAssemblies/Unity.Timeline.Editor.dll</HintPath>

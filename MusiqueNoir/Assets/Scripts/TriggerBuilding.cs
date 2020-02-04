@@ -19,6 +19,7 @@ public class TriggerBuilding : MonoBehaviour
 
     private void OnTriggerEnter2D(Collider2D collision)
     {
+        if(collision.gameObject.name == "Player")
         //when player collides with this trigger, inside of the building is revealed
         interior.SetActive(true);
     }
