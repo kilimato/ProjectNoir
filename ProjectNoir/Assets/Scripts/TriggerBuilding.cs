@@ -4,34 +4,31 @@ using UnityEngine;
 
 public class TriggerBuilding : MonoBehaviour
 {
-    public GameObject interior;
+    public SpriteRenderer interior;
     // Start is called before the first frame update
-    void Start()
+    private void Start()
     {
-        interior.GetComponent<SpriteRenderer>().enabled = false;
+        interior.enabled = false;
     }
 
-    // Update is called once per frame
-    void Update()
-    {
-        
-    }
 
     private void OnTriggerEnter2D(Collider2D collision)
     {
         if (collision.gameObject.name == "Player")
-            Debug.Log("Player entered the building");
-        //when player collides with this trigger, inside of the building is revealed
-        interior.SetActive(true);
-        interior.GetComponent<SpriteRenderer>().enabled = true;
+        {
+            //when player collides with this trigger, inside of the building is revealed
+            interior.enabled = true;
+        }
     }
 
     private void OnTriggerExit2D(Collider2D collision)
     {
-        //when player exit colliding with this trigger, inside of the building is hidden
-        interior.SetActive(false);
+        if (collision.gameObject.name == "Player")
+        {
+            //when player exit colliding with this trigger, inside of the building is hidden
+            interior.enabled = false;
+        }
 
-        interior.GetComponent<SpriteRenderer>().enabled = false;
     }
 
 

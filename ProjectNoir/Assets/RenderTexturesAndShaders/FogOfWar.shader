@@ -56,7 +56,7 @@
 		// how to count?
 		// col.a = 2.0 - red value * 1.5 - blue value * 0.5 + green value
 				if (col.r == 0 && col.b == 0) {
-					col.a = 0.8f;
+					col.a = 0.65f;
 				}
 				/*if (col.r == 1 && col.b == 0) {
 					col.a = 0.3f;

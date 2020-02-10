@@ -54,6 +54,14 @@ public class MoveTowardsPlayer : MonoBehaviour
         }
     }
 
+    private void OnCollisionEnter2D(Collision2D other)
+    {
+        if(other.gameObject.CompareTag("Player"))
+        {
+            Destroy(gameObject);
+        }
+    }
+
     // not working right now 
     private void ReturnToStartPos()
     {

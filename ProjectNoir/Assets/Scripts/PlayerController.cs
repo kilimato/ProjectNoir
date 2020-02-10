@@ -10,18 +10,15 @@ public class PlayerController : MonoBehaviour
 
     public GameObject mainCircle;
     public GameObject secondaryCircle;
+    public ClimbLadder climbLadder;
 
     private Vector3 minSize = new Vector3(0.01f, 0.01f, 1);
-    // Start is called before the first frame update
-    void Start()
-    {
-
-    }
 
     // Update is called once per frame
     void Update()
     {
         PlayerMoves();
+        CanPlayerClimb();
 
         IsMusicPlayed();
     }
@@ -31,7 +28,7 @@ public class PlayerController : MonoBehaviour
         horizontalInput = Input.GetAxis("Horizontal");
         verticalInput = Input.GetAxis("Vertical");
 
-        Vector3 movement = new Vector3(horizontalInput, verticalInput, 0f) * speed * Time.deltaTime;
+        Vector3 movement = new Vector3(horizontalInput, 0f, 0f) * speed * Time.deltaTime;
         transform.position += movement;
         //transform.Translate(Vector2.right * horizontalInput * speed * Time.deltaTime);
 
@@ -47,6 +44,22 @@ public class PlayerController : MonoBehaviour
 
     }
 
+
+    private void CanPlayerClimb()
+    {
+        if (climbLadder.CanPlayerClimb())
+        {
+            GetComponent<Rigidbody2D>().gravityScale = 0;
+            Vector3 movement = new Vector3(0f, verticalInput / 2, 0f) * speed * Time.deltaTime;
+            transform.position += movement;
+        }
+        else
+        {
+            GetComponent<Rigidbody2D>().gravityScale = 1;
+        }
+    }
+
+
     public void IsMusicPlayed()
     {
         if (Input.GetKey(KeyCode.Space))
@@ -60,20 +73,5 @@ public class PlayerController : MonoBehaviour
             mainCircle.transform.localScale -= new Vector3(0.1f, 0.1f, 0) * Time.deltaTime;
             secondaryCircle.transform.localScale -= new Vector3(0.1f, 0.1f, 0) * Time.deltaTime;
         }
-    }
-
-    // tee laskeutuminen portaita alas: nyt menee alas mistä tahansa kohtaa lattiaa,
-    // tee niin että kun onTriggerstay portaissa, ignooraa collisionin lattian kanssa
-    private void OnTriggerStay2D(Collider2D other)
-    {
-        if (other.gameObject.CompareTag("Ladder") && Input.GetKey(KeyCode.S))
-        {
-            Physics2D.IgnoreCollision(GameObject.FindGameObjectWithTag("Platform").GetComponent<BoxCollider2D>(), GetComponent<BoxCollider2D>(), true);
-        }
-    }
-
-    private void OnTriggerExit2D(Collider2D other)
-    {
-        Physics2D.IgnoreCollision(GameObject.FindGameObjectWithTag("Platform").GetComponent<BoxCollider2D>(), GetComponent<BoxCollider2D>(), false);
     }
 }
