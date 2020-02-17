@@ -12,6 +12,9 @@ public class MoveTowardsPlayer : MonoBehaviour
     public GameObject alertSign;
     public GameObject target;
     public GameObject startingPos;
+
+    public Animator animator;
+
     // Start is called before the first frame update
     void Start()
     {
@@ -51,6 +54,8 @@ public class MoveTowardsPlayer : MonoBehaviour
             destSetter.enabled = true;
 
             destSetter.target = target.transform;
+
+            animator.SetBool("Alerted", true);
         }
     }
 
