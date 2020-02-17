@@ -1,6 +1,7 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.Experimental.Rendering.Universal;
 
 public class PlayerController : MonoBehaviour
 {
@@ -12,10 +13,20 @@ public class PlayerController : MonoBehaviour
     public GameObject secondaryCircle;
     public ClimbLadder climbLadder;
 
-    public Animator animator;
-
     private Vector3 minSize = new Vector3(0.01f, 0.01f, 1);
+    public GameObject playerLight;
+    private Light2D lightRange;
 
+    public GameObject lightPrefab;
+    int timer = 0;
+
+
+    private void Start()
+    {
+        // we get the light by "using UnityEngine.Experimental.Rendering.Universal;"
+        Light2D pLight = playerLight.GetComponent<Light2D>();
+        lightRange = pLight;
+    }
     // Update is called once per frame
     void Update()
     {
@@ -28,8 +39,6 @@ public class PlayerController : MonoBehaviour
     private void PlayerMoves()
     {
         horizontalInput = Input.GetAxis("Horizontal");
-        animator.SetFloat("Speed", Mathf.Abs(horizontalInput));
-        
         verticalInput = Input.GetAxis("Vertical");
 
         Vector3 movement = new Vector3(horizontalInput, 0f, 0f) * speed * Time.deltaTime;
@@ -66,20 +75,31 @@ public class PlayerController : MonoBehaviour
 
     public void IsMusicPlayed()
     {
+        // tähän joku invoke repeating että valoja tulee tietyin aikavälein tmv.
         if (Input.GetKey(KeyCode.Space))
         {
+            timer++;
             mainCircle.transform.localScale += new Vector3(0.1f, 0.1f, 0) * Time.deltaTime;
             secondaryCircle.transform.localScale += new Vector3(0.1f, 0.1f, 0) * Time.deltaTime;
+            if (lightRange.pointLightInnerRadius < lightRange.pointLightOuterRadius - 0.1f)
+                lightRange.pointLightInnerRadius += 0.01f;
+            if (timer == 20)
+            {
+                Instantiate(lightPrefab, transform.position, transform.rotation);
+                timer = 0;
+            }
 
-            animator.SetBool("IsPlayingMusic", true);
+
+            if (lightRange.pointLightInnerRadius == lightRange.pointLightOuterRadius)
+                return;
         }
 
         if (!Input.GetKey(KeyCode.Space) && (mainCircle.transform.localScale.x > 0.000001))
         {
             mainCircle.transform.localScale -= new Vector3(0.1f, 0.1f, 0) * Time.deltaTime;
             secondaryCircle.transform.localScale -= new Vector3(0.1f, 0.1f, 0) * Time.deltaTime;
-
-            animator.SetBool("IsPlayingMusic", false);
+            if (lightRange.pointLightInnerRadius > 0.1f)
+                lightRange.pointLightInnerRadius -= 0.01f;
         }
     }
 }
