@@ -13,6 +13,8 @@ public class PlayerController : MonoBehaviour
     public GameObject secondaryCircle;
     public ClimbLadder climbLadder;
 
+    public Animator animator;
+
     private Vector3 minSize = new Vector3(0.01f, 0.01f, 1);
     public GameObject playerLight;
     private Light2D lightRange;
@@ -39,6 +41,8 @@ public class PlayerController : MonoBehaviour
     private void PlayerMoves()
     {
         horizontalInput = Input.GetAxis("Horizontal");
+        animator.SetFloat("Speed", Mathf.Abs(horizontalInput));
+
         verticalInput = Input.GetAxis("Vertical");
 
         Vector3 movement = new Vector3(horizontalInput, 0f, 0f) * speed * Time.deltaTime;
@@ -78,6 +82,8 @@ public class PlayerController : MonoBehaviour
         // tähän joku invoke repeating että valoja tulee tietyin aikavälein tmv.
         if (Input.GetKey(KeyCode.Space))
         {
+            animator.SetBool("IsPlayingMusic", true);
+
             timer++;
             mainCircle.transform.localScale += new Vector3(0.1f, 0.1f, 0) * Time.deltaTime;
             secondaryCircle.transform.localScale += new Vector3(0.1f, 0.1f, 0) * Time.deltaTime;
@@ -96,6 +102,8 @@ public class PlayerController : MonoBehaviour
 
         if (!Input.GetKey(KeyCode.Space) && (mainCircle.transform.localScale.x > 0.000001))
         {
+            animator.SetBool("IsPlayingMusic", false);
+
             mainCircle.transform.localScale -= new Vector3(0.1f, 0.1f, 0) * Time.deltaTime;
             secondaryCircle.transform.localScale -= new Vector3(0.1f, 0.1f, 0) * Time.deltaTime;
             if (lightRange.pointLightInnerRadius > 0.1f)
