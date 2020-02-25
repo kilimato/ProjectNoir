@@ -19,15 +19,21 @@ public class PlayerController : MonoBehaviour
     public GameObject playerLight;
     private Light2D lightRange;
 
+    private SpriteRenderer sr;
+    private bool facingRight;
+
     public GameObject lightPrefab;
     int timer = 0;
 
 
-    private void Start()
+    void Start()
     {
         // we get the light by "using UnityEngine.Experimental.Rendering.Universal;"
         Light2D pLight = playerLight.GetComponent<Light2D>();
         lightRange = pLight;
+
+        sr = GetComponent<SpriteRenderer>();
+        facingRight = true;
     }
     // Update is called once per frame
     void Update()
@@ -49,14 +55,9 @@ public class PlayerController : MonoBehaviour
         transform.position += movement;
         //transform.Translate(Vector2.right * horizontalInput * speed * Time.deltaTime);
 
-        // flips the player sprite to face to the right direction
-        if (movement.x >= 0.01f)
+        if(movement.x != 0)
         {
-            transform.localScale = new Vector3(2.5f, 2.5f, 1f);
-        }
-        else if (movement.x <= -0.01f)
-        {
-            transform.localScale = new Vector3(-2.5f, 2.5f, 1f);
+            sr.flipX = movement.x > 0f ? true : false;
         }
 
     }
